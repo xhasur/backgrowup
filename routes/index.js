@@ -20,6 +20,33 @@ MongoClient.connect('mongodb://localhost:27017/growup'
 });
 
 
+router.post("/getUser", cors(), function(req, res){
+    "use strict";
+    console.log(req.body.id);
+    collection.findOne(
+        { 
+          'username': req.body.username,
+          'password': req.body.password,   
+    }, function(err, item){
+        console.log(item);
+        var resultado;
+        if(!err){
+            resultado = {
+                status : 200,
+                result: item
+            }
+        }
+        else{
+            resultado = {
+                status : 500,
+                result : err
+            }
+        }
+        res.set('Content-Type', 'application/json').send(JSON.stringify(resultado));
+    })
+});
+
+
 router.get('/getUsers', cors(), function(req, res){
     console.log("getUsers")
     "use strict";
@@ -41,16 +68,22 @@ router.get('/getUsers', cors(), function(req, res){
     })
 });
 
-router.post('/SaveUsers', cors(), function(req, res){
-    "use strict";
+router.post('/saveUsers', cors(), function(req, res){
+"use strict";
     console.log(req.body.id);
-    collection.findOne({id: parseInt(req.body.id) }, function(err, item){
-        console.log(item);
+    var user = {
+                'name': req.body.name,
+                'lastname': req.body.lastname,
+                'age': req.body.age,
+                'username': req.body.username,
+                'password': req.body.password,
+                };
+    collection.insert(user, {w:1}, function(err, result) {
         var resultado;
         if(!err){
             resultado = {
                 status : 200,
-                result: item
+                result: user
             }
         }
         else{
@@ -60,7 +93,7 @@ router.post('/SaveUsers', cors(), function(req, res){
             }
         }
         res.set('Content-Type', 'application/json').send(JSON.stringify(resultado));
-    })
+    });
 });
 
 

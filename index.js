@@ -9,27 +9,30 @@ var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect("mongodb://localhost:27017/growup", function(err, db) {
   if(!err) {
     console.log("MongoDb Connect");
-    
+        /*
         var ticketCollection = db.collection('users');
         var user1 = {
                 'id': 1, 
                 'nombre': 'andres',
-                'apellido': 'lopez'
+                'apellido': 'lopez',
+                'ages': '30',
             };
         
                 var user2 = {
                 'id': 1, 
-                'nombre': 'andres2',
-                'apellido': 'lopez2'
+                'nombre': 'pepito',
+                'apellido': 'perez',
+                'ages': '19',
             };
 
         var users = [
-                {'id': 3, 'nombre': 'wewer', 'apellido': 'in wewewe'},
-                {'id': 4, 'nombre': 'nwewea', 'apellido': 'wewewe'}  
+                {'id': 3, 'nombre': 'jaunito', 'apellido': '1','ages': '19',},
+                {'id': 4, 'nombre': 'jaunito', 'apellido': '2','ages': '19',}  
             ];
         ticketCollection.insert(user1);
         ticketCollection.insert(user2, {w:1}, function(err, result) {});
         ticketCollection.insert(users, {w:1}, function(err, result) {});
+        */
     
   }
 });
