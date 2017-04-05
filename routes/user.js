@@ -12,18 +12,31 @@ MongoClient.connect('mongodb://localhost:27017/growup'
     , function(err, db){
         if(!err){
             console.log("MONGODB connect");
-            collection = db.collection('users');
+            userCollection = db.collection('users');
+              
+              /*
+              userCollection=   db.createCollection( "users",
+                { validator: { $or:
+                    [
+                        { phone: { $type: "string" } },
+                        { email: { $regex: /@mongodb\.com$/ } },
+                        { status: { $in: [ "Unknown", "Incomplete" ] } }
+                    ]
+                }
+                } 
+                ) 
+                 */
+
         }
         else{
             console.log(err);
         }
 });
 
-
 router.post("/getUser", cors(), function(req, res){
     "use strict";
     console.log(req.body.id);
-    collection.findOne(
+    userCollection.findOne(
         { 
           'username': req.body.username,
           'password': req.body.password,   
@@ -50,7 +63,7 @@ router.post("/getUser", cors(), function(req, res){
 router.get('/getUsers', cors(), function(req, res){
     console.log("getUsers")
     "use strict";
-    collection.find().toArray(function (err, items){
+    userCollection.find().toArray(function (err, items){
         var resultado;
         if (!err){
             resultado = {
@@ -78,7 +91,7 @@ router.post('/saveUsers', cors(), function(req, res){
                 'username': req.body.username,
                 'password': req.body.password,
                 };
-    collection.insert(user, {w:1}, function(err, result) {
+    userCollection.insert(user, {w:1}, function(err, result) {
         var resultado;
         if(!err){
             resultado = {
@@ -96,5 +109,14 @@ router.post('/saveUsers', cors(), function(req, res){
     });
 });
 
+/*
+    module.exports = function (express, entityModel) {
+        var router = express.Router();
+        router.post("/insertar", function (req, res) {createPersonas(req, res, entityModel);});
+        router.get("/listar", function (req, res) {getPersonas2(req, res, entityModel);});
+        router.delete("/eliminar/:id", function (req, res) {borrarPersona(req, res,entityModel);});
+        return router;
+    };
+*/
 
 module.exports = router;

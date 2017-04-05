@@ -8,44 +8,21 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect("mongodb://localhost:27017/growup", function(err, db) {
   if(!err) {
-    console.log("MongoDb Connect");
-        /*
-        var ticketCollection = db.collection('users');
-        var user1 = {
-                'id': 1, 
-                'nombre': 'andres',
-                'apellido': 'lopez',
-                'ages': '30',
-            };
-        
-                var user2 = {
-                'id': 1, 
-                'nombre': 'pepito',
-                'apellido': 'perez',
-                'ages': '19',
-            };
-
-        var users = [
-                {'id': 3, 'nombre': 'jaunito', 'apellido': '1','ages': '19',},
-                {'id': 4, 'nombre': 'jaunito', 'apellido': '2','ages': '19',}  
-            ];
-        ticketCollection.insert(user1);
-        ticketCollection.insert(user2, {w:1}, function(err, result) {});
-        ticketCollection.insert(users, {w:1}, function(err, result) {});
-        */
-    
-  }
+    console.log("MongoDb Connect");}
 });
 
-var endpoints = require('./routes/index');
+//var endpoints = require('./routes/index');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 app.options("*", cors());
 
-app.use("/", endpoints);
+//api users route
+app.use("/api/users", require('./routes/user'));
 
+//api residential
+app.use("/api/residential", require('./routes/residential'));
 
 var routes = express.Router();
 
